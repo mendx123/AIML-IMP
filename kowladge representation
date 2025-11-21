@@ -1,0 +1,24 @@
+from sympy import symbols, Or, Not, Implies, Xor, satisfiable
+
+# Define propositional variables
+Rain = symbols('Rain')
+Harry_Visited_Hagrid = symbols('Harry_Visited_Hagrid')
+Harry_Visited_Dumbledore = symbols('Harry_Visited_Dumbledore')
+
+# Sentences (knowledge base facts)
+sentence_1 = Implies(Not(Rain), Harry_Visited_Hagrid)
+sentence_2 = Xor(Harry_Visited_Hagrid, Harry_Visited_Dumbledore)
+sentence_3 = Harry_Visited_Dumbledore
+
+# Combine all sentences into a knowledge base
+knowledge_base = sentence_1 & sentence_2 & sentence_3
+
+# Find all models that satisfy the knowledge base
+solution = satisfiable(knowledge_base, all_models=True)
+
+# Check each model
+for model in solution:
+    if model.get(Rain):
+        print("It rained today")
+    else:
+        print("It did not rain")
