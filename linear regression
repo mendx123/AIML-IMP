@@ -1,0 +1,40 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+
+# Load the dataset
+data = pd.read_csv("pizza.csv")
+
+# Split input and output
+x = data[['size']].values
+y = data['cost'].values
+
+# Train–test split
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=1/3, random_state=0)
+
+# Create and train the model
+model = LinearRegression()
+model.fit(x_train, y_train)
+
+# Predict
+y_pred = model.predict(x_test)
+
+# Show actual vs predicted
+print(pd.DataFrame({'Actual': y_test, 'Predicted': y_pred}))
+
+# Plot training data
+plt.scatter(x_train, y_train)
+plt.plot(x_train, model.predict(x_train))
+plt.title("Pizza Size vs Cost (Training)")
+plt.xlabel("Size")
+plt.ylabel("Cost")
+plt.show()
+
+# Plot testing data
+plt.scatter(x_test, y_test)
+plt.plot(x_train, model.predict(x_train))
+plt.title("Pizza Size vs Cost (Testing)")
+plt.xlabel("Size")
+plt.ylabel("Cost")
+plt.show()
